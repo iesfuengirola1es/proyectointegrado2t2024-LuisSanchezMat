@@ -126,7 +126,7 @@ Falta alguna pantalla más, como la de gestión de las notificaciones.
 
 #### 3.3.1 - Diseño Conceptual (ER)
 
-![Diagrama Entidad - Relación](/recursos/img/diagramaER.png)
+![Diagrama Entidad - Relación](/recursos/img/diagramaER.png)  
 El nombre de subPago hace referencia a: 1 - Servicio de suscripción (SUBscription) y 2 - Pago (pago recurrente que el usuario quiera gestionar en la app).
 
 #### 3.3.2 - Modelo relacional
