@@ -100,7 +100,7 @@ Las tecnologías a usar serán las siguientes:
 
 #### 2.5.2 - Hardware
 
-Muy simple, por mi parte un ordenador con el que trabajar y, por parte del usuario, un terminal Android.
+Muy simple. Por mi parte, un ordenador con el que trabajar y, por parte del usuario, un terminal Android.
 
 ## 3 - Diseño de la solución software
 
