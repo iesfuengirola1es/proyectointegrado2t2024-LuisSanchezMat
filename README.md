@@ -118,7 +118,13 @@ Muy simple, por mi parte un ordenador con el que trabajar y, por parte del usuar
 
 #### 3.2.1 - Tablets / Smartphones
 
-(wireframe y mockup)
+![Pantalla de crear cuenta](recursos/img/signup.png)
+![Pantalla de iniciar sesión](recursos/img/login.png)
+![Listado de tus suscripciones](recursos/img/sub.png)
+![Añadir suscripción](recursos/img/addsub.png)
+![Pantalla de info de suscripción](recursos/img/item.png)
+
+Falta alguna pantalla más, como la de gestión de las notificaciones.
 
 ### 3.3 - Base de datos
 
