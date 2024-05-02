@@ -118,11 +118,7 @@ Muy simple, por mi parte un ordenador con el que trabajar y, por parte del usuar
 
 #### 3.2.1 - Tablets / Smartphones
 
-![Pantalla de crear cuenta](/recursos/img/signup.jpg)
-![Pantalla de iniciar sesión](/recursos/img/login.jpg)
-![Listado de tus suscripciones](/recursos/img/sub.jpg)
-![Añadir suscripción](/recursos/img/addsub.jpg)
-![Pantalla de info de suscripción](/recursos/img/item.jpg)
+![Resumen de las pantallas](/recursos/img/general.png)
 
 Falta alguna pantalla más, como la de gestión de las notificaciones.
 
