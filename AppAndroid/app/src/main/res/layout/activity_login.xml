@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".activities.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/logo"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hola!"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accede a tu cuenta"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correo electrónico"
+            android:layout_gravity="start"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="36dp"/>
+
+        <EditText
+            android:id="@+id/editEmailLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Introduce tu email..."
+            android:inputType="textEmailAddress"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="16dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="8dp"
+            android:background="@drawable/edit_text_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:layout_gravity="start"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="32dp"/>
+
+        <EditText
+            android:id="@+id/editPasswordLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Introduce tu contraseña..."
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/ic_password"
+            android:drawablePadding="16dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="8dp"
+            android:background="@drawable/edit_text_background" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="Continuar"
+            android:textColor="@android:color/white"
+            android:background="@color/principal"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/loginLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/registrate"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/darker_gray" />
+
+    </LinearLayout>
+</ScrollView>
