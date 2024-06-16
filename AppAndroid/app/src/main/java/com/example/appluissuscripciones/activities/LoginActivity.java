@@ -1,97 +1,105 @@
 package com.example.appluissuscripciones.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appluissuscripciones.R;
 import com.example.appluissuscripciones.entidades.Usuario;
-import com.example.appluissuscripciones.interfaces.Usuarios;
-import com.google.gson.JsonObject;
+import com.example.appluissuscripciones.entidades.UsuarioLoginRequest;
+import com.example.appluissuscripciones.entidades.UsuariosService;
 
-import okhttp3.ResponseBody;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText editEmailLogin, editPasswordLogin;
+    private EditText editMail, editPass;
     private Button btnLogin;
-
-    private Usuarios usuariosService;
+    private TextView registerLink;
+    private UsuariosService usuariosService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        editEmailLogin = findViewById(R.id.editEmailLogin);
-        editPasswordLogin = findViewById(R.id.editPasswordLogin);
+        editMail = findViewById(R.id.editMail);
+        editPass = findViewById(R.id.editPass);
         btnLogin = findViewById(R.id.btnLogin);
+        registerLink = findViewById(R.id.registerLink);
 
-        // Configuración de Retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tu-direccion-api/")  // Reemplaza con tu dirección base de la API
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        usuariosService = new UsuariosService();
 
-        usuariosService = retrofit.create(Usuarios.class);
-
-        // Listener para el botón de Iniciar Sesión
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarSesion();
+                loginUsuario();
+            }
+        });
+
+        registerLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    // Método para iniciar sesión
-    private void iniciarSesion() {
-        String correo = editEmailLogin.getText().toString().trim();
-        String password = editPasswordLogin.getText().toString().trim();
+    private void loginUsuario() {
+        String correo = editMail.getText().toString().trim();
+        String password = editPass.getText().toString().trim();
 
         if (correo.isEmpty() || password.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Introduce correo y contraseña", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Crear objeto JSON para enviar al servidor
-        JsonObject json = new JsonObject();
-        json.addProperty("correo", correo);
-        json.addProperty("password", password);
-
-        // Llamada a la API para verificar credenciales
-        Call<ResponseBody> call = usuariosService.login(json);
-        call.enqueue(new Callback<ResponseBody>() {
+        UsuarioLoginRequest request = new UsuarioLoginRequest(correo, password);
+        Call<Usuario> call = usuariosService.getUsuariosService().login(request);
+        call.enqueue(new Callback<Usuario>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if (response.isSuccessful()) {
-                    // Si la respuesta es exitosa, el inicio de sesión fue correcto
-                    Toast.makeText(getApplicationContext(), "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show();
-
-                    // Redirigir a la siguiente actividad (SubsActivity)
-                    Intent intent = new Intent(LoginActivity.this, SubsActivity.class);
-                    startActivity(intent);
-                    finish(); // Para evitar volver a esta actividad desde el botón de retroceso
+                    Usuario usuario = response.body();
+                    if (usuario != null) {
+                        // Login exitoso, redirige a la actividad SubsActivity
+                        Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, SubsActivity.class);
+                        intent.putExtra("id_usuario", usuario.getId_usuario());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Respuesta vacía del servidor", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    // Si no es exitosa, mostrar un mensaje de error
-                    Toast.makeText(getApplicationContext(), "Credenciales incorrectas. Vuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(errorBody);
+                        String errorMessage = jsonObject.getString("message");
+                        Toast.makeText(getApplicationContext(), "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Error al procesar la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                // Error en la llamada a la API (p. ej., conexión fallida)
-                Toast.makeText(getApplicationContext(), "Error de conexión. Vuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error al iniciar sesión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

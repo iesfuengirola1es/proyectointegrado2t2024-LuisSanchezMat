@@ -48,7 +48,7 @@
             android:layout_marginTop="36dp"/>
 
         <EditText
-            android:id="@+id/editEmailLogin"
+            android:id="@+id/editMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Introduce tu email..."
@@ -68,7 +68,7 @@
             android:layout_marginTop="32dp"/>
 
         <EditText
-            android:id="@+id/editPasswordLogin"
+            android:id="@+id/editPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Introduce tu contraseña..."
@@ -90,7 +90,7 @@
             android:padding="12dp" />
 
         <TextView
-            android:id="@+id/loginLink"
+            android:id="@+id/registerLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
