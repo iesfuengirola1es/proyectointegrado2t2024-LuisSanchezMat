@@ -6,11 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.SubsActivity">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/nombreUsuario"/>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/suscripciones"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:gravity="center_horizontal"
+        android:layout_margin="24dp"></TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tus suscripciones"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:gravity="left"
+        android:layout_margin="24dp"></TextView>
 
+    <ListView
+        android:id="@+id/listview"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"></ListView>
+
+    
     <Button
         android:id="@+id/btn"
         android:layout_width="match_parent"

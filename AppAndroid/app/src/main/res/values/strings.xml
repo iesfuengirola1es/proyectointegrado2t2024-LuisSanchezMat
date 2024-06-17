@@ -2,6 +2,7 @@
     <string name="app_name">AppLuisSuscripciones</string>
     <string name="registrate">¿No tienes una cuenta? <b><u>Regístrate aquí</u></b></string>
     <string name="inicia_sesion">¿Ya tienes una cuenta? <b><u>Inicia sesión</u></b></string>
+    <string name="suscripciones"><b>Suscripciones</b></string>
     <string name="title_activity_add_subs">AddSubsActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

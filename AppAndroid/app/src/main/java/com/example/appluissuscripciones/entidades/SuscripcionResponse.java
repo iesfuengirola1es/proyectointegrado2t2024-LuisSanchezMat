@@ -2,12 +2,25 @@ package com.example.appluissuscripciones.entidades;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class SuscripcionResponse {
     @SerializedName("id_suscripcion")
     private int idSuscripcion;
 
     @SerializedName("nombre_suscripcion")
     private String nombreSuscripcion;
+
+    @SerializedName("suscripciones")
+    private List<Suscripcion> suscripciones;
+
+    public List<Suscripcion> getSuscripciones() {
+        return suscripciones;
+    }
+
+    public void setSuscripciones(List<Suscripcion> suscripciones) {
+        this.suscripciones = suscripciones;
+    }
 
     @SerializedName("logo")
     private String logo;
