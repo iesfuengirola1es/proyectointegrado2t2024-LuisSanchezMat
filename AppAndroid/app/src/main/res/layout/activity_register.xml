@@ -79,6 +79,26 @@
             android:paddingEnd="8dp"
             android:background="@drawable/edit_text_background" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirmar contraseña"
+            android:layout_gravity="start"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="32dp"/>
+
+        <EditText
+            android:id="@+id/editConfPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirma la contraseña..."
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/ic_password"
+            android:drawablePadding="16dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="8dp"
+            android:background="@drawable/edit_text_background" />
+
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
@@ -94,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="¿Ya tienes una cuenta? Inicia sesión"
+            android:text="@string/inicia_sesion"
             android:textSize="14sp"
             android:layout_gravity="center"
             android:textColor="@android:color/darker_gray" />

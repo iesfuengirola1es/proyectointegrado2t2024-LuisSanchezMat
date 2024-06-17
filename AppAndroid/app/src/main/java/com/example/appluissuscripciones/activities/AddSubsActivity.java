@@ -2,7 +2,9 @@ package com.example.appluissuscripciones.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -134,6 +137,11 @@ public class AddSubsActivity extends AppCompatActivity {
 
     // Validar y guardar la suscripción
     private void guardarSuscripcion() {
+        SharedPreferences sharedPreferences = getSharedPreferences("preferencias_usuario", Context.MODE_PRIVATE);
+        int idUsuario = 0;
+        if (sharedPreferences.contains("id_usuario")) {
+            idUsuario = sharedPreferences.getInt("id_usuario", -1);
+        }
         // Obtener los datos de los EditText y Spinner
         String nombre = editNombre.getText().toString().trim();
         String fechaInicioStr = editFechaInicio.getText().toString().trim();
@@ -142,25 +150,26 @@ public class AddSubsActivity extends AppCompatActivity {
         String notas = editNotas.getText().toString().trim();
         String periodicidad = spinnerPeriodicidad.getSelectedItem().toString();
 
-        // Validar los campos
-        if (nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Periodicidad")) {
-            Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        double importe = Double.parseDouble(importeStr);
-
         Calendar fechaInicio = Calendar.getInstance();
         Calendar fechaFin = Calendar.getInstance();
 
+
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            fechaInicio.setTime(dateFormat.parse(fechaInicioStr));
-            fechaFin.setTime(dateFormat.parse(fechaFinStr));
+            Date fechaInDate = date.parse(fechaInicioStr);  //String a date
+            Date fechaFinDate = date.parse(fechaFinStr);
+
+            // Validar los campos
+            if (nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || fechaFinDate.before(fechaInDate) || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Periodicidad")) {
+                Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
         } catch (ParseException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error al procesar las fechas", Toast.LENGTH_SHORT).show();
-            return;
+            throw new RuntimeException(e);
         }
+
+        double importe = Double.parseDouble(importeStr);
 
         // Convertir el logo seleccionado a Base64
         String logoBase64 = "";
@@ -176,7 +185,7 @@ public class AddSubsActivity extends AppCompatActivity {
         suscripcion.setImporte(importe);
         suscripcion.setNotas(notas);
         suscripcion.setPeriodicidad(periodicidad);
-        suscripcion.setIdUsuario(1); // Asigna el ID del usuario correspondiente
+        suscripcion.setIdUsuario(idUsuario); // Asigna el ID del usuario correspondiente
         suscripcion.setLogo(logoBase64); // Establecer el logo en formato Base64
 
         // Llamar al servicio para guardar la suscripción
@@ -190,11 +199,10 @@ public class AddSubsActivity extends AppCompatActivity {
                         // Procesar la respuesta si es necesaria
                         Toast.makeText(AddSubsActivity.this, "Suscripción guardada correctamente", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(AddSubsActivity.this, "Error en la respuesta de la API", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddSubsActivity.this, "Error: Ya tienes una suscripción a ese nombre", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(AddSubsActivity.this, "Error en la respuesta de la API", Toast.LENGTH_SHORT).show();
-                    // Aquí puedes agregar más información sobre el error si lo deseas
+                    Toast.makeText(AddSubsActivity.this, "Error: Ya tienes una suscripción a ese nombre", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -209,8 +217,8 @@ public class AddSubsActivity extends AppCompatActivity {
     // Método para convertir Bitmap a Base64
     private String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 25, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP);
     }
 }

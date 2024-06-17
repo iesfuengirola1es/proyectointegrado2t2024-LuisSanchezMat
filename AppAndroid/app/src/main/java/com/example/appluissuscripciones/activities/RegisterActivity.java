@@ -2,7 +2,9 @@ package com.example.appluissuscripciones.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText editMail, editPass;
+    private EditText editMail, editPass, editConfPass;
     private Button btnRegister;
     private TextView loginLink;
 
@@ -35,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         editMail = findViewById(R.id.editMail);
         editPass = findViewById(R.id.editPass);
+        editConfPass = findViewById(R.id.editConfPass);
         btnRegister = findViewById(R.id.btnRegister);
         loginLink = findViewById(R.id.loginLink);
 
@@ -74,9 +77,10 @@ public class RegisterActivity extends AppCompatActivity {
     private void registrarUsuario() {
         String correo = editMail.getText().toString().trim();
         String password = editPass.getText().toString().trim();
+        String confPassword = editConfPass.getText().toString().trim();
 
         // Validación de los campos
-        if (correo.isEmpty() || password.isEmpty() || !correo.contains("@") || !correo.contains(".") || password.length() < 8) {
+        if (correo.isEmpty() || password.isEmpty() || confPassword.isEmpty() || !password.equals(confPassword) || !correo.contains("@") || !correo.contains(".") || password.length() < 8) {
             // Manejo de validación si los campos están vacíos o no válidos
             Toast.makeText(getApplicationContext(), "Introduzca datos válidos", Toast.LENGTH_SHORT).show();
             return; // Detener el proceso de registro si los datos no son válidos
@@ -93,6 +97,14 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     // Registro exitoso
                     Usuario nuevoUsuario = response.body();
+                    SharedPreferences sharedPreferences = getSharedPreferences("preferencias_usuario", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("id_usuario", nuevoUsuario.getId_usuario());
+                    editor.apply();
+
+                    Intent intent = new Intent(RegisterActivity.this, SubsActivity.class);
+                    startActivity(intent);
+
                     Toast.makeText(getApplicationContext(), "Usuario creado con éxito", Toast.LENGTH_SHORT).show();
                     // Aquí puedes redirigir a la siguiente pantalla o hacer algo adicional
                 } else {

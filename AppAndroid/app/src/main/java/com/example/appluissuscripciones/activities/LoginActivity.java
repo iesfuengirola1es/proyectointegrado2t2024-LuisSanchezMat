@@ -1,7 +1,9 @@
 package com.example.appluissuscripciones.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +37,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("preferencias_usuario", Context.MODE_PRIVATE);
+        if (sharedPreferences.contains("id_usuario")) {
+            int idUsuario = sharedPreferences.getInt("id_usuario", -1);
+            Intent intent = new Intent(LoginActivity.this, SubsActivity.class);
+            intent.putExtra("id_usuario", idUsuario);
+            startActivity(intent);
+        }
 
         editMail = findViewById(R.id.editMail);
         editPass = findViewById(R.id.editPass);
@@ -77,6 +87,11 @@ public class LoginActivity extends AppCompatActivity {
                     Usuario usuario = response.body();
                     if (usuario != null) {
                         // Login exitoso, redirige a la actividad SubsActivity
+                        SharedPreferences sharedPreferences = getSharedPreferences("preferencias_usuario", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("id_usuario", usuario.getId_usuario());
+                        editor.apply();
+
                         Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, SubsActivity.class);
                         intent.putExtra("id_usuario", usuario.getId_usuario());
