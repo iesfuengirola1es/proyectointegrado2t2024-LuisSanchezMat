@@ -6,7 +6,7 @@
     android:padding="24dp"
     android:background="@android:color/white">
 
-    <!-- Título de la pantalla -->
+
     <TextView
         android:id="@+id/textViewTitulo"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Nombre de la suscripción -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:background="@drawable/edit_text_background"
             android:focusable="true" />
 
-        <!-- Botón para elegir logo -->
+
         <Button
             android:id="@+id/buttonChooseLogo"
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:layout_marginTop="20dp"
             android:text="Adjunta un logo..." />
 
-        <!-- Fecha de inicio -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:background="@drawable/edit_text_background"
             android:focusable="false" />
 
-        <!-- Fecha de fin -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:background="@drawable/edit_text_background"
             android:focusable="false" />
 
-        <!-- Periodicidad -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background" />
 
-        <!-- Importe -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
             android:background="@drawable/edit_text_background"
             android:inputType="numberDecimal" />
 
-        <!-- Notas -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                 android:scaleType="fitCenter" />
         </LinearLayout>
 
-        <!-- Botón Guardar -->
+
         <Button
             android:id="@+id/buttonGuardar"
             android:layout_width="match_parent"

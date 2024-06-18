@@ -1,6 +1,8 @@
 package com.example.appluissuscripciones.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -46,11 +48,9 @@ public class EditSubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_sub);
 
-        // Inicializar Retrofit correctamente usando SuscripcionesService
         SuscripcionesService suscripcionesServiceInstance = new SuscripcionesService();
         suscripcionesService = suscripcionesServiceInstance.getSuscripcionesService();
 
-        // Obtener referencias a vistas del layout
         editNombre = findViewById(R.id.editNombre);
         editFechaInicio = findViewById(R.id.editFechaInicio);
         editFechaFin = findViewById(R.id.editFechaFin);
@@ -59,8 +59,6 @@ public class EditSubActivity extends AppCompatActivity {
         editPeriodicidad = findViewById(R.id.editPeriodicidad);
         logoEscogido = findViewById(R.id.logoescogido);
         buttonEliminar = findViewById(R.id.buttonEliminar);
-
-
 
         // Inicializar calendario y formato de fecha
         calendar = Calendar.getInstance();
@@ -81,7 +79,8 @@ public class EditSubActivity extends AppCompatActivity {
         }
 
         // Configurar botón de Eliminar
-        buttonEliminar.setOnClickListener(v -> eliminarSuscripcion());
+        buttonEliminar.setOnClickListener(v -> mostrarDialogoConfirmacion());
+
     }
 
     // Método para obtener los detalles de la suscripción desde la API
@@ -93,7 +92,6 @@ public class EditSubActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Suscripcion suscripcion = response.body();
                     if (suscripcion != null) {
-                        // Mostrar los datos de la suscripción en las vistas correspondientes
                         mostrarDetallesSuscripcion(suscripcion);
                     } else {
                         Toast.makeText(EditSubActivity.this, "No se encontraron detalles de la suscripción", Toast.LENGTH_SHORT).show();
@@ -113,12 +111,6 @@ public class EditSubActivity extends AppCompatActivity {
         });
     }
 
-    /* Función para convertir Base64 a Bitmap
-    public Bitmap base64ToBitmap(String base64String) {
-        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    }
-*/
     // Método para mostrar los detalles de la suscripción en las vistas
     private void mostrarDetallesSuscripcion(Suscripcion suscripcion) {
         editNombre.setText(suscripcion.getNombreSuscripcion());
@@ -128,26 +120,15 @@ public class EditSubActivity extends AppCompatActivity {
         editNotas.setText(suscripcion.getNotas());
         editPeriodicidad.setText(suscripcion.getPeriodicidad());
 
-        /*String base64Image = suscripcion.getLogo();
-        Bitmap bitmap = base64ToBitmap(base64Image);
-        logoEscogido.setImageBitmap(bitmap);
-        */
-
-
         if (suscripcion.getLogo() != null && !suscripcion.getLogo().isEmpty()) {
             byte[] decodedString = Base64.decode(suscripcion.getLogo(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             logoEscogido.setImageBitmap(decodedByte);
         } else {
-            // Manejar caso donde no hay imagen disponible
-            logoEscogido.setImageResource(R.drawable.ic_default_image); // Imagen por defecto o manejar según tu diseño
+            logoEscogido.setImageResource(R.drawable.ic_default_image); // Imagen por defecto
         }
 
-
-
         String[] periodicidades = getResources().getStringArray(R.array.periodicidad_array);
-
-
         int index = -1;
         for (int i = 0; i < periodicidades.length; i++) {
             if (periodicidades[i].equals(suscripcion.getPeriodicidad())) {
@@ -158,52 +139,27 @@ public class EditSubActivity extends AppCompatActivity {
 
     }
 
-    // Método para actualizar la suscripción
-    private void actualizarSuscripcion() {
-        // Obtener los datos actualizados de las vistas
-        String nombre = editNombre.getText().toString().trim();
-        String fechaInicio = editFechaInicio.getText().toString().trim();
-        String fechaFin = editFechaFin.getText().toString().trim();
-        double importe = Double.parseDouble(editImporte.getText().toString().trim());
-        String notas = editNotas.getText().toString().trim();
-
-
-
-        // Crear objeto Suscripcion con los datos actualizados
-        Suscripcion suscripcionActualizada = new Suscripcion();
-        suscripcionActualizada.setIdSuscripcion(idSuscripcion);
-        suscripcionActualizada.setNombreSuscripcion(nombre);
-        suscripcionActualizada.setFechaInicio(fechaInicio);
-        suscripcionActualizada.setFechaFin(fechaFin);
-        suscripcionActualizada.setImporte(importe);
-        suscripcionActualizada.setNotas(notas);
-
-
-        // Llamar al servicio para actualizar la suscripción
-        Call<SuscripcionResponse> call = suscripcionesService.actualizarSuscripcion(idUsuario, idSuscripcion, suscripcionActualizada);
-        call.enqueue(new Callback<SuscripcionResponse>() {
+    private void mostrarDialogoConfirmacion() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar suscripción");
+        builder.setMessage("¿Estás seguro de que quieres eliminar esta suscripción?");
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(Call<SuscripcionResponse> call, Response<SuscripcionResponse> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(EditSubActivity.this, "Suscripción actualizada correctamente", Toast.LENGTH_SHORT).show();
-                    // Puedes agregar más acciones después de actualizar, como cerrar la actividad o actualizar la UI
-                } else {
-                    Toast.makeText(EditSubActivity.this, "Error al actualizar la suscripción", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SuscripcionResponse> call, Throwable t) {
-                Toast.makeText(EditSubActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int which) {
+                eliminarSuscripcion();
             }
         });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // El usuario canceló, no hacer nada
+            }
+        });
+        builder.show();
     }
 
     // Método para eliminar la suscripción
     private void eliminarSuscripcion() {
-        // Confirmar la eliminación
-        // Aquí podrías mostrar un diálogo de confirmación antes de proceder con la eliminación
-
         Call<Void> call = suscripcionesService.eliminarSuscripcion(idUsuario, idSuscripcion);
         call.enqueue(new Callback<Void>() {
             @Override

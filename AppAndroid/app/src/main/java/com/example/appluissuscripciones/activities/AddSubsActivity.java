@@ -162,9 +162,6 @@ public class AddSubsActivity extends AppCompatActivity {
     }
 
 
-
-
-
     // Validar y guardar la suscripción
     private void guardarSuscripcion() {
         SharedPreferences sharedPreferences = getSharedPreferences("preferencias_usuario", Context.MODE_PRIVATE);
@@ -200,7 +197,6 @@ public class AddSubsActivity extends AppCompatActivity {
             }
 
         } catch (ParseException e) {
-            //Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
         }
 
         double importe = Double.parseDouble(importeStr);
@@ -219,8 +215,8 @@ public class AddSubsActivity extends AppCompatActivity {
         suscripcion.setImporte(importe);
         suscripcion.setNotas(notas);
         suscripcion.setPeriodicidad(periodicidad);
-        suscripcion.setIdUsuario(idUsuario); // Asigna el ID del usuario correspondiente
-        suscripcion.setLogo(logoBase64); // Establecer el logo en formato Base64
+        suscripcion.setIdUsuario(idUsuario);
+        suscripcion.setLogo(logoBase64);
 
         // Llamar al servicio para guardar la suscripción
         Call<SuscripcionResponse> call = suscripcionesService.guardarSuscripcion(suscripcion);
@@ -230,12 +226,9 @@ public class AddSubsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     SuscripcionResponse suscripcionResponse = response.body();
                     if (suscripcionResponse != null) {
-                        // Procesar la respuesta si es necesaria
                         Toast.makeText(AddSubsActivity.this, "Suscripción guardada correctamente", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(AddSubsActivity.this, SubsActivity.class);
                         startActivity(intent);
-                    } else {
-                        Toast.makeText(AddSubsActivity.this, "Error: Ya tienes una suscripción a ese nombre", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(AddSubsActivity.this, "Error: Ya tienes una suscripción a ese nombre", Toast.LENGTH_SHORT).show();
