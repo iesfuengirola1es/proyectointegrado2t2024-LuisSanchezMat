@@ -177,26 +177,10 @@ public class AddSubsActivity extends AppCompatActivity {
         String notas = editNotas.getText().toString().trim();
         String periodicidad = spinnerPeriodicidad.getSelectedItem().toString();
 
-        Calendar fechaInicio = Calendar.getInstance();
-        Calendar fechaFin = Calendar.getInstance();
-
-        while(nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Elegir Periodicidad")){
+        // Validar campos vacíos
+        if (nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Elegir Periodicidad")) {
             Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date fechaInDate = date.parse(fechaInicioStr);  //String a date
-            Date fechaFinDate = date.parse(fechaFinStr);
-
-            // Validar los campos
-            if (fechaFinDate.before(fechaInDate) ) {
-                Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-        } catch (ParseException e) {
         }
 
         double importe = Double.parseDouble(importeStr);
@@ -210,8 +194,34 @@ public class AddSubsActivity extends AppCompatActivity {
         // Crear objeto Suscripcion
         Suscripcion suscripcion = new Suscripcion();
         suscripcion.setNombreSuscripcion(nombre);
-        suscripcion.setFechaInicio(dateFormat.format(fechaInicio.getTime()));
-        suscripcion.setFechaFin(dateFormat.format(fechaFin.getTime()));
+
+        // Convertir fechas de String a Date usando el formato adecuado
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        try {
+            Date fechaInicioDate = dateFormat.parse(fechaInicioStr);
+            Date fechaFinDate = dateFormat.parse(fechaFinStr);
+
+            // Configurar fechas en el objeto Suscripcion
+            suscripcion.setFechaInicio(dateFormat.format(fechaInicioDate));
+            suscripcion.setFechaFin(dateFormat.format(fechaFinDate));
+
+            // Configurar las fechas en el calendario (opcional, si necesitas manipularlas)
+            Calendar fechaInicio = Calendar.getInstance();
+            fechaInicio.setTime(fechaInicioDate);
+            Calendar fechaFin = Calendar.getInstance();
+            fechaFin.setTime(fechaFinDate);
+
+            // Validar que fechaFin sea posterior a fechaInicio
+            if (fechaFinDate.before(fechaInicioDate)) {
+                Toast.makeText(this, "La fecha de fin debe ser posterior a la fecha de inicio", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al parsear las fechas", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         suscripcion.setImporte(importe);
         suscripcion.setNotas(notas);
         suscripcion.setPeriodicidad(periodicidad);
@@ -242,6 +252,7 @@ public class AddSubsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     // Método para convertir Bitmap a Base64
     private String bitmapToBase64(Bitmap bitmap) {
