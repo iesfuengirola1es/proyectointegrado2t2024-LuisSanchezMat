@@ -127,13 +127,43 @@ public class AddSubsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_PICK && data != null && data.getData() != null) {
             try {
-                selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                // Obtener el bitmap de la imagen seleccionada
+                Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+
+                // Redimensionar el bitmap
+                selectedImageBitmap = resizeBitmap(originalBitmap, 256, 256);
+
+                // Mostrar el bitmap redimensionado en ImageView
                 logoEscogido.setImageBitmap(selectedImageBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    // Reducir el tamaño del bitmap antes de la conversión a Base64
+    private Bitmap resizeBitmap(Bitmap bitmap, int maxWidth, int maxHeight) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        float ratioBitmap = (float) width / (float) height;
+        float ratioMax = (float) maxWidth / (float) maxHeight;
+
+        int finalWidth = maxWidth;
+        int finalHeight = maxHeight;
+        if (ratioMax > ratioBitmap) {
+            finalWidth = (int) ((float) maxHeight * ratioBitmap);
+        } else {
+            finalHeight = (int) ((float) maxWidth / ratioBitmap);
+        }
+
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, finalWidth, finalHeight, true);
+        return resizedBitmap;
+    }
+
+
+
+
 
     // Validar y guardar la suscripción
     private void guardarSuscripcion() {
@@ -153,6 +183,10 @@ public class AddSubsActivity extends AppCompatActivity {
         Calendar fechaInicio = Calendar.getInstance();
         Calendar fechaFin = Calendar.getInstance();
 
+        while(nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Periodicidad")){
+            Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -160,13 +194,13 @@ public class AddSubsActivity extends AppCompatActivity {
             Date fechaFinDate = date.parse(fechaFinStr);
 
             // Validar los campos
-            if (nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || fechaFinDate.before(fechaInDate) || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Periodicidad")) {
+            if (fechaFinDate.before(fechaInDate) ) {
                 Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
                 return;
             }
 
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            //Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
         }
 
         double importe = Double.parseDouble(importeStr);
@@ -219,7 +253,7 @@ public class AddSubsActivity extends AppCompatActivity {
     // Método para convertir Bitmap a Base64
     private String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 25, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArray, Base64.NO_WRAP);
     }

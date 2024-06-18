@@ -3,7 +3,10 @@ package com.example.appluissuscripciones.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -110,6 +113,12 @@ public class EditSubActivity extends AppCompatActivity {
         });
     }
 
+    /* Función para convertir Base64 a Bitmap
+    public Bitmap base64ToBitmap(String base64String) {
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+*/
     // Método para mostrar los detalles de la suscripción en las vistas
     private void mostrarDetallesSuscripcion(Suscripcion suscripcion) {
         editNombre.setText(suscripcion.getNombreSuscripcion());
@@ -118,6 +127,24 @@ public class EditSubActivity extends AppCompatActivity {
         editImporte.setText(String.valueOf(suscripcion.getImporte()) + "€");
         editNotas.setText(suscripcion.getNotas());
         editPeriodicidad.setText(suscripcion.getPeriodicidad());
+
+        /*String base64Image = suscripcion.getLogo();
+        Bitmap bitmap = base64ToBitmap(base64Image);
+        logoEscogido.setImageBitmap(bitmap);
+        */
+
+
+        if (suscripcion.getLogo() != null && !suscripcion.getLogo().isEmpty()) {
+            byte[] decodedString = Base64.decode(suscripcion.getLogo(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            logoEscogido.setImageBitmap(decodedByte);
+        } else {
+            // Manejar caso donde no hay imagen disponible
+            logoEscogido.setImageResource(R.drawable.ic_default_image); // Imagen por defecto o manejar según tu diseño
+        }
+
+
+
         String[] periodicidades = getResources().getStringArray(R.array.periodicidad_array);
 
 
@@ -129,8 +156,6 @@ public class EditSubActivity extends AppCompatActivity {
             }
         }
 
-        // Cargar el logo, si está disponible
-        // Aquí debes implementar la lógica para mostrar el logo en la ImageView logoEscogido
     }
 
     // Método para actualizar la suscripción
