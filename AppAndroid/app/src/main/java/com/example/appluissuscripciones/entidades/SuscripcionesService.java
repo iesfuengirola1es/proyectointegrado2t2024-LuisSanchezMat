@@ -1,6 +1,6 @@
 package com.example.appluissuscripciones.entidades;
+
 import com.example.appluissuscripciones.interfaces.Suscripciones;
-import com.example.appluissuscripciones.interfaces.Usuarios;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,5 +23,8 @@ public class SuscripcionesService {
     public Suscripciones getSuscripcionesService() {
         return suscripcionesService;
     }
-}
 
+    public void setSuscripcionesService(Suscripciones suscripcionesService) {
+        this.suscripcionesService = suscripcionesService;
+    }
+}

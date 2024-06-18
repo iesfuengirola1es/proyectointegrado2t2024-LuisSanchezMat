@@ -11,12 +11,12 @@
         android:id="@+id/textViewTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Añadir suscripción"
+        android:text="Eliminar suscripción"
         android:textStyle="bold"
         android:textSize="24sp"
         android:textColor="@android:color/black"
         android:gravity="center_horizontal"
-        android:layout_margin="10dp"/>
+        android:layout_margin="24dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Nombre de la suscripción"
             android:textColor="@android:color/black"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="24dp"/>
 
         <EditText
             android:id="@+id/editNombre"
@@ -37,15 +37,7 @@
             android:layout_height="wrap_content"
             android:hint="Nombre de la suscripción"
             android:background="@drawable/edit_text_background"
-            android:focusable="true" />
-
-        <!-- Botón para elegir logo -->
-        <Button
-            android:id="@+id/buttonChooseLogo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Adjunta un logo..." />
+            android:focusable="false" />
 
         <!-- Fecha de inicio -->
         <TextView
@@ -53,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="Fecha de inicio"
             android:textColor="@android:color/black"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="24dp"/>
 
         <EditText
             android:id="@+id/editFechaInicio"
@@ -69,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="Fecha de fin"
             android:textColor="@android:color/black"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="24dp"/>
 
         <EditText
             android:id="@+id/editFechaFin"
@@ -85,13 +77,15 @@
             android:layout_height="wrap_content"
             android:text="Periodicidad"
             android:textColor="@android:color/black"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="24dp"/>
 
-        <Spinner
-            android:id="@+id/spinnerPeriodicidad"
+        <EditText
+            android:id="@+id/editPeriodicidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background" />
+            android:hint="Periodicidad"
+            android:background="@drawable/edit_text_background"
+            android:focusable="false" />
 
         <!-- Importe -->
         <TextView
@@ -99,7 +93,7 @@
             android:layout_height="wrap_content"
             android:text="Importe"
             android:textColor="@android:color/black"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="24dp"/>
 
         <EditText
             android:id="@+id/editImporte"
@@ -107,7 +101,8 @@
             android:layout_height="wrap_content"
             android:hint="Importe"
             android:background="@drawable/edit_text_background"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:focusable="false" />
 
         <!-- Notas -->
         <TextView
@@ -115,7 +110,7 @@
             android:layout_height="wrap_content"
             android:text="Notas"
             android:textColor="@android:color/black"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="24dp"/>
 
         <EditText
             android:id="@+id/editNotas"
@@ -123,39 +118,39 @@
             android:layout_height="wrap_content"
             android:hint="Notas"
             android:background="@drawable/edit_text_background"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:focusable="false" />
 
         <LinearLayout
-            android:layout_marginTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:weightSum="4">
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:layout_marginTop="50dp"
                 android:layout_weight="2"
-                android:text="\n\nLogo escogido:"
-                android:textColor="@android:color/black" />
+                android:gravity="center_vertical|start"
+                android:text="Logo escogido:"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/logoescogido"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:layout_gravity="right"
                 android:scaleType="fitCenter" />
         </LinearLayout>
 
-        <!-- Botón Guardar -->
+        <!-- Botón Eliminar -->
         <Button
-            android:id="@+id/buttonGuardar"
+            android:id="@+id/buttonEliminar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:layout_marginTop="16dp"
+            android:text="Eliminar"
+            android:layout_marginTop="42dp"
             android:background="@color/white" />
     </LinearLayout>
 

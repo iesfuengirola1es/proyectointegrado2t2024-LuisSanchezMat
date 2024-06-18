@@ -198,6 +198,8 @@ public class AddSubsActivity extends AppCompatActivity {
                     if (suscripcionResponse != null) {
                         // Procesar la respuesta si es necesaria
                         Toast.makeText(AddSubsActivity.this, "Suscripción guardada correctamente", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AddSubsActivity.this, SubsActivity.class);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(AddSubsActivity.this, "Error: Ya tienes una suscripción a ese nombre", Toast.LENGTH_SHORT).show();
                     }

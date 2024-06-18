@@ -1,6 +1,7 @@
 package com.example.appluissuscripciones.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,53 +12,48 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.appluissuscripciones.R;
+import com.example.appluissuscripciones.activities.EditSubActivity;
 import com.example.appluissuscripciones.entidades.Suscripcion;
-import com.example.appluissuscripciones.entidades.SuscripcionesService;
 
 import java.util.List;
 
 public class SubsAdapter extends ArrayAdapter<Suscripcion> {
-    private List<Suscripcion> subs;
-    public SubsAdapter(Context context, List<Suscripcion> list) {
-        super(context,0, list);
-        this.subs = list;
+
+    private Context mContext;
+    private List<Suscripcion> mSuscripciones;
+
+    public SubsAdapter(@NonNull Context context, @NonNull List<Suscripcion> suscripciones) {
+        super(context, 0, suscripciones);
+        mContext = context;
+        mSuscripciones = suscripciones;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable
-    View convertView, @NonNull ViewGroup parent)
-    {
-        return initView(position,convertView, parent);
-    }
-
-    @Override
-    public View getDropDownView(int position, @Nullable
-    View convertView, @NonNull ViewGroup parent){
-        return initView (position, convertView,parent);
-    }
-
-    private View initView(int position, View convertView,
-                          ViewGroup parent)
-    {
-
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View vistaPersonalizada = inflater.inflate(R.layout.custom_adapter_sub, parent, false);
-
-        Suscripcion sub = getItem(position);
-
-        TextView texto = vistaPersonalizada.findViewById(R.id.texto);
-       // TextView nombreSub = vistaPersonalizada.findViewById(R.id.nombreSub);
-       // TextView importeSub  = vistaPersonalizada.findViewById(R.id.importeSub);
-       // TextView fechaFinSub = vistaPersonalizada.findViewById(R.id.fechaFinSub);
-        // String.valueOf
-
-        if (sub != null){
-            texto.append(sub.getNombreSuscripcion() + " | " + sub.getImporte() + " | " + sub.getFechaFin());
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View listItem = convertView;
+        if (listItem == null) {
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.custom_adapter_sub, parent, false);
         }
 
+        final Suscripcion currentSuscripcion = mSuscripciones.get(position);
 
-        return vistaPersonalizada;
+        TextView textView = listItem.findViewById(R.id.texto);
+        textView.setText(currentSuscripcion.getNombreSuscripcion() + " | " +
+                currentSuscripcion.getImporte() + "€ | " +
+                currentSuscripcion.getFechaFin());
+
+        // Configurar onClickListener para el elemento de la lista
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Abrir EditSubActivity y pasar los datos de la suscripción
+                Intent intent = new Intent(mContext, EditSubActivity.class);
+                intent.putExtra("id_suscripcion", currentSuscripcion.getIdSuscripcion());
+                mContext.startActivity(intent);
+            }
+        });
+
+        return listItem;
     }
-
 }
