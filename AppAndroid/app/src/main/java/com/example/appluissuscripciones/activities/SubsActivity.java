@@ -58,7 +58,6 @@ public class SubsActivity extends AppCompatActivity {
             }
         });
 
-
         buttonCerrarSesion = findViewById(R.id.buttonCerrarSesion);
         buttonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +70,6 @@ public class SubsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void obtenerSuscripciones(int idUsuario) {
@@ -91,8 +89,6 @@ public class SubsActivity extends AppCompatActivity {
                 Toast.makeText(SubsActivity.this, "Error al conectar con la API", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
-
-
         });
     }
 }

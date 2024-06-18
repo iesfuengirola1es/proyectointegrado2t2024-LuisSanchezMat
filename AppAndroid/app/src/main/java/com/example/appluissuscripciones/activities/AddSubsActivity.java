@@ -131,7 +131,7 @@ public class AddSubsActivity extends AppCompatActivity {
                 Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
 
                 // Redimensionar el bitmap
-                selectedImageBitmap = resizeBitmap(originalBitmap, 256, 256);
+                selectedImageBitmap = resizeBitmap(originalBitmap, 128, 128);
 
                 // Mostrar el bitmap redimensionado en ImageView
                 logoEscogido.setImageBitmap(selectedImageBitmap);
@@ -183,7 +183,7 @@ public class AddSubsActivity extends AppCompatActivity {
         Calendar fechaInicio = Calendar.getInstance();
         Calendar fechaFin = Calendar.getInstance();
 
-        while(nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Periodicidad")){
+        while(nombre.isEmpty() || fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || importeStr.isEmpty() || notas.isEmpty() || periodicidad.equals("Elegir Periodicidad")){
             Toast.makeText(this, "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
             return;
         }
