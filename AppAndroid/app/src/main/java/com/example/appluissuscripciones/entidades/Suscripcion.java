@@ -31,13 +31,11 @@ public class Suscripcion {
     private int idUsuario;
 
     @SerializedName("id_servicio")
-    private Integer idServicio; // Usamos Integer para permitir que sea nulo
+    private Integer idServicio;
 
-    // Constructor vacío necesario para deserialización con Gson
     public Suscripcion() {
     }
 
-    // Getters y Setters
     public int getIdSuscripcion() {
         return idSuscripcion;
     }

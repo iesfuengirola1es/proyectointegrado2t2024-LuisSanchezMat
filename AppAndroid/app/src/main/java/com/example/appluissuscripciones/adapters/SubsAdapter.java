@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
 
 
 import androidx.annotation.NonNull;
@@ -51,7 +50,7 @@ public class SubsAdapter extends ArrayAdapter<Suscripcion> {
 
         ImageView imageViewLogo = listItem.findViewById(R.id.ivwlogo);
 
-        // Cargar el logo utilizando Picasso
+        // Cargar logo
         if (currentSuscripcion.getLogo() != null && !currentSuscripcion.getLogo().isEmpty()) {
             byte[] decodedString = Base64.decode(currentSuscripcion.getLogo(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

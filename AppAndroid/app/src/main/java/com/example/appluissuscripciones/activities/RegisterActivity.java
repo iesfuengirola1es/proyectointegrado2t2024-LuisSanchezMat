@@ -106,16 +106,13 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     Toast.makeText(getApplicationContext(), "Usuario creado con éxito", Toast.LENGTH_SHORT).show();
-                    // Aquí puedes redirigir a la siguiente pantalla o hacer algo adicional
                 } else {
-                    // Error en la respuesta de la API
                     Toast.makeText(getApplicationContext(), "Error en la respuesta de la API", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                // Error en la llamada a la API
                 Toast.makeText(getApplicationContext(), "Error al conectar con la API", Toast.LENGTH_SHORT).show();
             }
         });

@@ -24,13 +24,6 @@ public interface Suscripciones {
             @Path("id_suscripcion") int idSuscripcion
     );
 
-    @PUT("usuarios/{id_usuario}/suscripciones/{id_suscripcion}")
-    Call<SuscripcionResponse> actualizarSuscripcion(
-            @Path("id_usuario") int idUsuario,
-            @Path("id_suscripcion") int idSuscripcion,
-            @Body Suscripcion suscripcion
-    );
-
     @DELETE("usuarios/{id_usuario}/suscripciones/{id_suscripcion}")
     Call<Void> eliminarSuscripcion(
             @Path("id_usuario") int idUsuario,
