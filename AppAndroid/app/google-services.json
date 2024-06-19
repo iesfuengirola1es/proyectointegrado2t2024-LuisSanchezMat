@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858600921094",
+    "project_id": "appluissuscripciones",
+    "storage_bucket": "appluissuscripciones.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858600921094:android:6cdbd2079f425aecfe8b87",
+        "android_client_info": {
+          "package_name": "com.example.appluissuscripciones"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd-yD_eZ3G5-y73rmNn7p2APwW4w3z_4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
